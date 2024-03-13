@@ -1,6 +1,7 @@
 ﻿using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using System.Threading.Tasks;
+using ZhizhaBOT.commands;
 
 namespace ZhizhaBOT
 {
@@ -25,6 +26,16 @@ namespace ZhizhaBOT
             Client = new DiscordClient(discordCondig);
 
             Client.Ready += Client_Ready;
+
+            var commandsConfig = new CommandsNextConfiguration() {
+                StringPrefixes = new string[] {jsonReader.prefix},
+                EnableMentionPrefix = true,
+                EnableDms = true,
+                EnableDefaultHelp= false
+            };
+
+            Commands  = Client.UseCommandsNext(commandsConfig);
+            Commands.RegisterCommands<TestCommands>();
 
             await Client.ConnectAsync();
             await Task.Delay(-1);
